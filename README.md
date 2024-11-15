@@ -1,9 +1,5 @@
 # bothub backend
 
-В вашем README.md есть несколько мелких ошибок форматирования и повторений. Я предлагаю следующее улучшение для лучшей читаемости и корректности:
-
-# Bothub Backend
-
 ## Project Setup and Usage
 
 This guide will help you set up and run the project locally using Docker.
@@ -57,25 +53,6 @@ Once the containers are running, the application will be available at:
 1.  login: superadmin, password: bothubTest1! role: superadmin
 2.  login: admin, password: bothubTest1! role: admin
 3.  login: stutzen, password: bothubTest1! role: client
-
-### E2E Tests
-
-The project includes End-to-End (E2E) tests. To run them, execute the following command inside the running Docker container:
-
-```bash
-npm run test:e2e
-```
-
-This will trigger the execution of all E2E tests, ensuring that everything works as expected.
-
-Troubleshooting
-
-• If you encounter any issues with Docker Compose, make sure that Docker is running and that you have sufficient permissions to use it.
-• If the application fails to start, check the logs for any errors by running:
-
-```bash
-docker-compose logs
-```
 
 Additional Notes
 
