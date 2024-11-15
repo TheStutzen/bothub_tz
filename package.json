@@ -1,0 +1,87 @@
+{
+  "name": "bothub-express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --quiet",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"{src,apps,libs,test}/**/*.{ts,js}\"",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm_run": "npm run typeorm -- -d src/database/database.config.ts",
+    "migration:generate": "npm run typeorm_run migration:generate ./src/database/migrations/$npm_config_name$_migration",
+    "migration:create": "npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name$_migration",
+    "migration:run": "npm run typeorm_run migration:run",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --runInBand --verbose --config ./test/jest-e2e.json",
+    "test:junit": "jest --ci --reporters=default --reporters=jest-junit",
+    "test:junit:cov": "jest --coverage --ci --reporters=default --reporters=jest-junit",
+    "test:e2e:junit": "jest --config ./test/jest-e2e.json --reporters=default --runInBand --ci --reporters=default --reporters=jest-junit",
+    "test:e2e:junit:cov": "jest --config ./test/jest-e2e.json --coverage --reporters=default --ci --reporters=default --reporters=jest-junit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.14",
+    "@types/supertest": "^6.0.2",
+    "accesscontrol": "^2.2.1",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cookie-signature": "^1.2.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "generate-password": "^1.7.1",
+    "openai": "^4.72.0",
+    "pg": "^8.13.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typeorm": "^0.3.20",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  },
+  "jest-junit": {
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": " > ",
+    "usePathForSuiteName": "true"
+  }
+}

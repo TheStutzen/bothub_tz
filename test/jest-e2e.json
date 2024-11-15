@@ -1,0 +1,13 @@
+{
+	"preset": "ts-jest",
+	"testEnvironment": "node",
+	"testRegex": ".e2e-tests.ts$",
+	"moduleFileExtensions": [
+		"js",
+		"json",
+		"ts"
+	],
+	"transform": {
+		"^.+\\.(t|j)s$": "ts-jest"
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"editor.largeFileOptimizations": false,
+	"editor.showFoldingControls": "always",
+	"editor.occurrencesHighlight": "off",
+	"editor.wrappingIndent": "indent",
+	"editor.mouseWheelZoom": true,
+	"editor.matchBrackets": "never",
+	"editor.insertSpaces": false,
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": false,
+	"editor.formatOnType": false,
+	"editor.wordWrap": "on",
+	"editor.tabSize": 2,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"files.eol": "\n",
+	"files.trimTrailingWhitespace": true,
+	"files.trimFinalNewlines": true,
+	"files.insertFinalNewline": true,
+	"editor.stickyScroll.enabled": false
+}
