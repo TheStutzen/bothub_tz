@@ -1,3 +1,5 @@
+import { IErrorsType } from '../../../shared/interface/shared.interface'
+
 export interface ILlmGenerateText {
   model: string
   text: any
@@ -22,4 +24,15 @@ export interface ILlmGenerateVision {
   model: string
   text: any
   imageUrl: any
+}
+
+export interface IGenerateTextResponse {
+  ok: boolean
+  message: string
+  errors: IErrorsType[]
+}
+
+export interface IGenerateTextStreamResponse {
+  message: string
+  errors: IErrorsType[]
 }

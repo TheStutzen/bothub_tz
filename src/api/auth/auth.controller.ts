@@ -29,7 +29,7 @@ export class AuthController {
     try {
       const result = await this.authService.signUp(res, params)
 
-      if (result.message) {
+      if (result.user) {
         res.status(201).json(result)
       } else {
         res.status(400).json(result)
@@ -61,7 +61,7 @@ export class AuthController {
     try {
       const result = await this.authService.signIn(req, params)
 
-      if (result.message) {
+      if (result.user) {
         res.status(200).json(result)
       } else {
         res.status(400).json(result)
@@ -75,7 +75,7 @@ export class AuthController {
     try {
       const result = await this.authService.fetchSession(req)
 
-      if (result.message) {
+      if (result.user) {
         res.status(200).json(result)
       } else {
         res.status(400).json(result)

@@ -1,5 +1,10 @@
 import { OpenAi } from '../../libs/openai'
-import { ILlmGenerateSpeech, ILlmGenerateText } from './interface/llm.interface'
+import {
+  IGenerateTextResponse,
+  IGenerateTextStreamResponse,
+  ILlmGenerateSpeech,
+  ILlmGenerateText
+} from './interface/llm.interface'
 import Models from '../../models'
 import { UsersService } from '../users/users.service'
 
@@ -7,15 +12,22 @@ export class LlmService {
   openAi = new OpenAi()
   usersService = new UsersService()
 
-  async generateText(req: any, params: ILlmGenerateText) {
+  async generateText(
+    req: any,
+    params: ILlmGenerateText
+  ): Promise<IGenerateTextResponse> {
     const user = await Models.UsersModel.findByUserId(req.session.user.userId)
 
     if (+user.balance <= 0) {
       return {
-        errors: {
-          field: 'balance',
-          message: req.__('LLM.generateText.lowBalance')
-        }
+        ok: false,
+        message: null,
+        errors: [
+          {
+            field: 'balance',
+            message: req.__('LLM.generateText.lowBalance')
+          }
+        ]
       }
     }
 
@@ -35,26 +47,37 @@ export class LlmService {
         balance: balanceCost
       })
 
-      return { ok: true, message: res.message }
+      return { ok: true, message: res.message, errors: null }
     }
 
     return {
-      errors: {
-        field: 'generateText',
-        message: res.err.message
-      }
+      ok: false,
+      message: null,
+      errors: [
+        {
+          field: 'generateText',
+          message: res.err.message
+        }
+      ]
     }
   }
 
-  async generateTextStream(req: any, res: any, params: ILlmGenerateText) {
+  async generateTextStream(
+    req: any,
+    res: any,
+    params: ILlmGenerateText
+  ): Promise<IGenerateTextStreamResponse> {
     const user = await Models.UsersModel.findByUserId(req.session.user.userId)
 
     if (+user.balance <= 0) {
       return {
-        errors: {
-          field: 'balance',
-          message: req.__('LLM.generateTextStream.lowBalance')
-        }
+        message: null,
+        errors: [
+          {
+            field: 'balance',
+            message: req.__('LLM.generateTextStream.lowBalance')
+          }
+        ]
       }
     }
 

@@ -1,8 +1,12 @@
 import Models from '../../models'
-import { IUpdateUser } from './interface/users.interface'
+import {
+  IGetBalanceResponse,
+  IGetUsersResponse,
+  IUpdateUser
+} from './interface/users.interface'
 
 export class UsersService {
-  async getUsers(req: any) {
+  async getUsers(req: any): Promise<IGetUsersResponse> {
     const users = await Models.UsersModel.getUsers()
 
     if (users.length) {
@@ -16,27 +20,29 @@ export class UsersService {
         })
       )
 
-      return { users: filteredUsers }
+      return { message: null, errors: null, users: filteredUsers }
     }
 
     return {
-      users: null,
+      message: null,
       errors: [
         { field: 'getUsers', message: req.__('USERS.getUsers.notFound') }
-      ]
+      ],
+      users: null
     }
   }
 
-  async getBalance(req: any, userId: number) {
+  async getBalance(req: any, userId: number): Promise<IGetBalanceResponse> {
     const user = await Models.UsersModel.findByUserId(userId)
 
     if (user) {
-      return { balance: user.balance }
+      return { message: null, errors: null, balance: user.balance }
     }
 
     return {
-      users: null,
-      errors: [{ field: 'user', message: req._('USERS.getBalance.notFound') }]
+      message: null,
+      errors: [{ field: 'user', message: req._('USERS.getBalance.notFound') }],
+      balance: null
     }
   }
 

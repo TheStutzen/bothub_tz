@@ -27,7 +27,7 @@ export class UsersController {
         req.session.user.userId
       )
 
-      if (result.users) {
+      if (result.balance) {
         res.status(200).json(result)
       } else {
         res.status(404).json(result)

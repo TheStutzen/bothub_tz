@@ -1,24 +1,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { compareHash, createHash } from '../../utils/Bcrypt'
 import Models from '../../models'
-import { IRemind, ISignIn, ISignUp } from './interface/auth.interface'
+import {
+  IFetchSessionResponse,
+  IRemind,
+  ISignIn,
+  ISignInResponse,
+  ISignOutResponse,
+  ISignUp,
+  ISignUpResponse
+} from './interface/auth.interface'
 import { signSession } from '../../libs/SignSession'
 // import { gp } from '../../utils/GenPass'
 
 export class AuthService {
-  async signUp(req: any, params: ISignUp) {
+  async signUp(req: any, params: ISignUp): Promise<ISignUpResponse> {
     const { login, email, password } = params
 
     const check = await Models.UsersModel.findByLogin(params.login)
 
     if (check) {
       return {
+        message: null,
         errors: [
           {
             field: 'login',
             message: req.__('AUTH.signUp.loginIsExist')
           }
-        ]
+        ],
+        user: null
       }
     }
 
@@ -32,36 +42,43 @@ export class AuthService {
     if (user) {
       return {
         message: req.__('AUTH.signUp.success'),
+        errors: null,
         user: {
           login: user.login,
           email: user.email,
           userId: user.userId,
-          balance: user.balance
+          balance: user.balance,
+          roleId: user.roleId
         }
       }
     }
 
     return {
+      message: null,
       errors: [
         {
           field: 'signUp',
           message: req.__('AUTH.signUp.error')
         }
-      ]
+      ],
+      user: null
     }
   }
 
-  async signIn(req: any, params: ISignIn) {
+  async signIn(req: any, params: ISignIn): Promise<ISignInResponse> {
     const user = await Models.UsersModel.findByLogin(params.login)
 
     if (!user) {
       return {
+        message: null,
         errors: [
           {
             field: 'login or passwrod',
             message: req.__('AUTH.signIn.loginOrPasswordIncorrect')
           }
-        ]
+        ],
+        sid: null,
+        user: null
       }
     }
 
@@ -69,12 +86,15 @@ export class AuthService {
 
     if (!passwordIsMatch) {
       return {
+        message: null,
         errors: [
           {
             field: 'login or passwrod',
             message: req.__('AUTH.signIn.loginOrPasswordIncorrect')
           }
-        ]
+        ],
+        sid: null,
+        user: null
       }
     }
 
@@ -94,15 +114,18 @@ export class AuthService {
     }
   }
 
-  async fetchSession(req: any) {
+  async fetchSession(req: any): Promise<IFetchSessionResponse> {
     if (!req.session.user) {
       return {
+        message: null,
         errors: [
           {
             field: 'fetchSession',
             message: req.__('AUTH.fetchSession.sessionNotFound')
           }
-        ]
+        ],
+        sid: null,
+        user: null
       }
     }
 
@@ -112,12 +135,15 @@ export class AuthService {
 
     if (!user) {
       return {
+        message: null,
         errors: [
           {
             field: 'fetchSession',
             message: req.__('AUTH.fetchSession.userNotExist')
           }
-        ]
+        ],
+        sid: null,
+        user: null
       }
     }
 
@@ -131,7 +157,7 @@ export class AuthService {
     }
   }
 
-  async signOut(req: any) {
+  async signOut(req: any): Promise<ISignOutResponse> {
     if (req.sessionID) {
       req.session.destroy(req.sessionID, (err) => {
         if (err) console.error('error destroy session', err)
