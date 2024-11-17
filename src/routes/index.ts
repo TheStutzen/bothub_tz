@@ -134,6 +134,32 @@ export class Routes {
       async (req, res) => await this.authController.signOut(req, res)
     )
 
+    /**
+     * @swagger
+     * /api/remind:
+     *   patch:
+     *     tags: [Auth]
+     *     summary: remind pass user
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               login:
+     *                 type: string
+     *     responses:
+     *       200:
+     *         description: Пароль успешно изменен и выслан на почту
+     *       400:
+     *         description: Invalid request
+     */
+    app.patch(
+      '/api/remind',
+      async (req, res) => await this.authController.remind(req, res)
+    )
+
     // USERS
 
     /**

@@ -1,4 +1,4 @@
-import { ISignUp } from '../interface/auth.interface'
+import { IRemind, ISignUp } from '../interface/auth.interface'
 import {
   hasLogin,
   hasPassword,
@@ -80,6 +80,19 @@ export const dtoSignUp = (params: ISignUp) => {
 
   if (passErr) {
     errors.push(passErr)
+  }
+
+  return errors
+}
+
+export const dtoRemind = (params: IRemind) => {
+  const errors: { field: string; message: string }[] = []
+
+  if (isEmpty(params.login)) {
+    errors.push({
+      field: 'login',
+      message: i18n.__('VALIDATORS.isEmpty.error')
+    })
   }
 
   return errors

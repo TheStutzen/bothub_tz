@@ -1,8 +1,8 @@
 import { validation } from '../../validator/validation'
-import { ISignUp } from '../auth/interface/auth.interface'
+import { IRemind, ISignUp } from '../auth/interface/auth.interface'
 import { AuthService } from './auth.service'
 import { ISignIn } from './interface/auth.interface'
-import { dtoSignIn, dtoSignUp } from './dto/auth.dto'
+import { dtoRemind, dtoSignIn, dtoSignUp } from './dto/auth.dto'
 
 export class AuthController {
   authService = new AuthService()
@@ -10,7 +10,11 @@ export class AuthController {
   async signUp(req: any, res: any) {
     const params: ISignUp = req.body
 
-    if (params.email == null || params.login == null || params.password == null)
+    if (
+      params.email == null ||
+      params.login == null ||
+      params.password == null
+    ) {
       return res.status(400).json({
         errors: [
           {
@@ -19,6 +23,7 @@ export class AuthController {
           }
         ]
       })
+    }
 
     const validate = validation(dtoSignUp, params)
 
@@ -42,7 +47,7 @@ export class AuthController {
   async signIn(req: any, res: any) {
     const params: ISignIn = req.body
 
-    if (params.login == null || params.password == null)
+    if (params.login == null || params.password == null) {
       return res.status(400).json({
         errors: [
           {
@@ -51,6 +56,7 @@ export class AuthController {
           }
         ]
       })
+    }
 
     const validate = validation(dtoSignIn, params)
 
@@ -89,6 +95,39 @@ export class AuthController {
     try {
       const result = await this.authService.signOut(req)
       res.status(200).json(result)
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
+  }
+
+  async remind(req: any, res: any) {
+    const params: IRemind = req.body
+
+    if (params.login == null) {
+      return res.status(400).json({
+        errors: [
+          {
+            field: 'login',
+            message: req.__('VALIDATORS.remindParams.notSpecified')
+          }
+        ]
+      })
+    }
+
+    const validate = validation(dtoRemind, params)
+
+    if (validate) {
+      return res.status(400).json({ errors: validate.errors })
+    }
+
+    try {
+      const result = await this.authService.remind(req, params)
+
+      if (result.message) {
+        res.status(200).json(result)
+      } else {
+        res.status(400).json(result)
+      }
     } catch (error) {
       res.status(500).json({ error: error.message })
     }

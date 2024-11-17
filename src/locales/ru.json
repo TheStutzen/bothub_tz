@@ -19,6 +19,7 @@
       "success": "Сессия завершена"
     },
     "remind": {
+      "success": "Новый пароль выслан на почту",
       "userNotFound": "Указанный пользователь не найден"
     }
   },
@@ -91,6 +92,9 @@
     },
     "replenishBalanceUserParams": {
       "notSpecified": "Какое-то или все значения не были переданы"
+    },
+    "remindParams": {
+      "notSpecified": "Логин не был указаны"
     }
   },
   "HTTP": {

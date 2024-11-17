@@ -19,6 +19,7 @@
       "success": "Session ended"
     },
     "remind": {
+      "success": "New password sent by email",
       "userNotFound": "The specified user was not found"
     }
   },
@@ -91,6 +92,9 @@
     },
     "replenishBalanceUserParams": {
       "notSpecified": "Some or all required values were not provided"
+    },
+    "remindParams": {
+      "notSpecified": "Username was not provided"
     }
   },
   "HTTP": {

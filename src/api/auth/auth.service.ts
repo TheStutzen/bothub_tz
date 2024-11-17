@@ -4,6 +4,7 @@ import Models from '../../models'
 import {
   IFetchSessionResponse,
   IRemind,
+  IRemindResponse,
   ISignIn,
   ISignInResponse,
   ISignOutResponse,
@@ -11,7 +12,8 @@ import {
   ISignUpResponse
 } from './interface/auth.interface'
 import { signSession } from '../../libs/SignSession'
-// import { gp } from '../../utils/GenPass'
+import { gp } from '../../utils/GenPass'
+import { NodemailerService } from '../../libs/nodemailer'
 
 export class AuthService {
   async signUp(req: any, params: ISignUp): Promise<ISignUpResponse> {
@@ -175,20 +177,47 @@ export class AuthService {
     }
   }
 
-  async remind(params: IRemind) {
+  async remind(req: any, params: IRemind): Promise<IRemindResponse> {
     const auth = await Models.UsersModel.findByLogin(params.login)
 
     if (auth) {
-      // const password = gp()
-      // const hashPass = createHash(password)
-      // const hasUpdate = Models.UsersModel.update(auth.id, {
-      //   password: hashPass
-      // })
-      // if (hasUpdate) {
-      //   // Здесь можно добавить логику отправку сообщения через NODEMAILER
-      // }
+      const password = gp()
+      const hashPass = createHash(password)
+      const hasUpdate = Models.UsersModel.updateRemind({
+        userId: auth.userId,
+        password: hashPass
+      })
+
+      if (hasUpdate) {
+        const mail = new NodemailerService()
+
+        const body = `
+        <h1>Восстановление пароля</h1>
+        <p>Ваш новый пароль: ${password}
+        <p>Если вы получили это письмо по ошибке, пожалуйста, просто удалите его. Никаких дополнительных действий с вашей стороны не требуется.</p>
+        `
+        mail.sendMail({
+          from: `"BotHub" <${process.env.USERMAILER}>`,
+          to: auth.email,
+          subject: 'Восстановление пароля в BotHub',
+          html: body
+        })
+
+        return {
+          message: req.__('AUTH.remind.success'),
+          errors: null
+        }
+      }
     }
 
-    throw new Error('Пользователя с указанным логин не существует')
+    return {
+      message: null,
+      errors: [
+        {
+          field: 'login',
+          message: req.__('AUTH.remind.userNotFound')
+        }
+      ]
+    }
   }
 }

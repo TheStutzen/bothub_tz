@@ -32,4 +32,10 @@ export class UsersModel {
       balance: params.balance
     })
   }
+
+  async updateRemind(params: any) {
+    return await this.usersRepository.update(params.userId, {
+      password: params.password
+    })
+  }
 }

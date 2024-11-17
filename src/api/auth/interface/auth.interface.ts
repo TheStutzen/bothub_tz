@@ -42,3 +42,8 @@ export interface ISignOutResponse {
   message: string
   errors: IErrorsType[]
 }
+
+export interface IRemindResponse {
+  message: string
+  errors: IErrorsType[]
+}
