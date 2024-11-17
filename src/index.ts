@@ -5,6 +5,7 @@ import * as cookieParser from 'cookie-parser'
 import { pgDataSource } from './database/database.config'
 import { SessionConfig } from './libs/sessionstore/sessiondb.config'
 import { Routes } from './routes'
+import i18n from './locales'
 
 const port = process.env.HTTP_PORT
 const host = process.env.HTTP_HOST
@@ -17,6 +18,7 @@ async function startServer() {
 
   const app = express()
 
+  app.use(i18n.init)
   app.use(express.json())
   app.use(cookieParser())
   app.use(session(SessionConfig()))

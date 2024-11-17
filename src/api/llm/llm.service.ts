@@ -14,8 +14,7 @@ export class LlmService {
       return {
         errors: {
           field: 'balance',
-          message:
-            'Нехватает средств для выполнения запроса, пожалуйста пополните баланс'
+          message: req.__('LLM.generateText.lowBalance')
         }
       }
     }
@@ -54,8 +53,7 @@ export class LlmService {
       return {
         errors: {
           field: 'balance',
-          message:
-            'Нехватает средств для выполнения запроса, пожалуйста пополните баланс'
+          message: req.__('LLM.generateTextStream.lowBalance')
         }
       }
     }

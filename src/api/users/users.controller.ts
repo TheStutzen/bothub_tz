@@ -8,7 +8,7 @@ export class UsersController {
 
   async getUsers(req: any, res: any) {
     try {
-      const result = await this.usersService.getUsers()
+      const result = await this.usersService.getUsers(req)
 
       if (result.users) {
         res.status(200).json(result)
@@ -22,7 +22,10 @@ export class UsersController {
 
   async getBalance(req: any, res: any) {
     try {
-      const result = await this.usersService.getBalance(req.session.user.userId)
+      const result = await this.usersService.getBalance(
+        req,
+        req.session.user.userId
+      )
 
       if (result.users) {
         res.status(200).json(result)
@@ -42,7 +45,9 @@ export class UsersController {
         errors: [
           {
             field: 'userId or balance',
-            message: 'Какое-то или все значения не были переданы'
+            message: req.__(
+              'VALIDATORS.replenishBalanceUserParams.notSpecified'
+            )
           }
         ]
       })
@@ -55,7 +60,7 @@ export class UsersController {
     }
 
     try {
-      const result = await this.usersService.replenishBalanceUser(params)
+      const result = await this.usersService.replenishBalanceUser(req, params)
 
       if (result.message) {
         res.status(200).json(result)

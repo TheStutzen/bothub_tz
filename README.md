@@ -54,6 +54,8 @@ Once the containers are running, the application will be available at:
 2.  login: admin, password: bothubTest1! role: admin
 3.  login: stutzen, password: bothubTest1! role: client
 
+В приложении присутствуют мультиязычные ошибки, на EN и RU, можно в заголовке передать, можно в строке, либо в доп куке
+
 Additional Notes
 
 • Make sure to check the Swagger UI for API documentation and testing: http://localhost:3000/swagger.

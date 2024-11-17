@@ -1,5 +1,6 @@
 import { isNumber } from '../../../utils/Validators'
 import { IUpdateUser } from '../interface/users.interface'
+import * as i18n from 'i18n'
 
 export const dtoUserUpdate = (params: IUpdateUser) => {
   const errors: { field: string; message: string }[] = []
@@ -7,14 +8,14 @@ export const dtoUserUpdate = (params: IUpdateUser) => {
   if (!isNumber(params.userId)) {
     errors.push({
       field: 'userId',
-      message: 'Было передано не валидное значение'
+      message: i18n.__('VALIDATORS.isNumber.error')
     })
   }
 
   if (!isNumber(params.balance)) {
     errors.push({
       field: 'balance',
-      message: 'Было передано не валидное значение'
+      message: i18n.__('VALIDATORS.isNumber.error')
     })
   }
 

@@ -6,7 +6,7 @@ import { signSession } from '../../libs/SignSession'
 // import { gp } from '../../utils/GenPass'
 
 export class AuthService {
-  async signUp(params: ISignUp) {
+  async signUp(req: any, params: ISignUp) {
     const { login, email, password } = params
 
     const check = await Models.UsersModel.findByLogin(params.login)
@@ -16,7 +16,7 @@ export class AuthService {
         errors: [
           {
             field: 'login',
-            message: 'Пользователь с таким логином уже существует'
+            message: req.__('AUTH.signUp.loginIsExist')
           }
         ]
       }
@@ -31,7 +31,7 @@ export class AuthService {
 
     if (user) {
       return {
-        message: 'Успешная регистрация',
+        message: req.__('AUTH.signUp.success'),
         user: {
           login: user.login,
           email: user.email,
@@ -45,7 +45,7 @@ export class AuthService {
       errors: [
         {
           field: 'signUp',
-          message: 'Неудалось создать пользователя. Обратитесь в поддержку'
+          message: req.__('AUTH.signUp.error')
         }
       ]
     }
@@ -57,7 +57,10 @@ export class AuthService {
     if (!user) {
       return {
         errors: [
-          { field: 'login or passwrod', message: 'Логин или пароль неверный' }
+          {
+            field: 'login or passwrod',
+            message: req.__('AUTH.signIn.loginOrPasswordIncorrect')
+          }
         ]
       }
     }
@@ -67,7 +70,10 @@ export class AuthService {
     if (!passwordIsMatch) {
       return {
         errors: [
-          { field: 'login or passwrod', message: 'Логин или пароль неверный' }
+          {
+            field: 'login or passwrod',
+            message: req.__('AUTH.signIn.loginOrPasswordIncorrect')
+          }
         ]
       }
     }
@@ -81,7 +87,7 @@ export class AuthService {
     const { password, ...userWithoutPassword } = user
 
     return {
-      message: 'Успешная авторизация',
+      message: req.__('AUTH.signIn.success'),
       errors: null,
       sid: signSession(sessionId),
       user: userWithoutPassword
@@ -91,7 +97,12 @@ export class AuthService {
   async fetchSession(req: any) {
     if (!req.session.user) {
       return {
-        errors: [{ field: 'fetchSession', message: 'Сессия не найдена' }]
+        errors: [
+          {
+            field: 'fetchSession',
+            message: req.__('AUTH.fetchSession.sessionNotFound')
+          }
+        ]
       }
     }
 
@@ -101,14 +112,19 @@ export class AuthService {
 
     if (!user) {
       return {
-        errors: [{ field: 'fetchSession', message: 'Сессия не найдена' }]
+        errors: [
+          {
+            field: 'fetchSession',
+            message: req.__('AUTH.fetchSession.userNotExist')
+          }
+        ]
       }
     }
 
     const { password, ...userWithoutPassword } = user
 
     return {
-      message: 'Вы авторизованы',
+      message: req.__('AUTH.fetchSession.success'),
       errors: null,
       sid: signSession(req.sessionID),
       user: userWithoutPassword
@@ -122,13 +138,13 @@ export class AuthService {
       })
 
       return {
-        message: 'Вы успешно вышли',
+        message: req.__('AUTH.signOut.success'),
         errors: null
       }
     }
 
     return {
-      message: 'Вы успешно вышли',
+      message: req.__('AUTH.signOut.success'),
       errors: null
     }
   }

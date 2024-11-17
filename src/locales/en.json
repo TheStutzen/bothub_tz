@@ -1,0 +1,102 @@
+{
+  "AUTH": {
+    "signUp": {
+      "success": "Registration successful",
+      "loginIsExist": "A user with this username already exists",
+      "error": "Failed to create user. Please contact support"
+    },
+    "signIn": {
+      "success": "Login successful",
+      "loginOrPasswordIncorrect": "Incorrect username or password",
+      "loginNotExist": "Incorrect login information"
+    },
+    "fetchSession": {
+      "success": "You are logged in",
+      "userNotExist": "User not found",
+      "sessionNotFound": "Session not found"
+    },
+    "signOut": {
+      "success": "Session ended"
+    },
+    "remind": {
+      "userNotFound": "The specified user was not found"
+    }
+  },
+  "USERS": {
+    "getUsers": {
+      "notFound": "No users found"
+    },
+    "getBalance": {
+      "notFound": "User not found"
+    },
+    "replenishBalanceUser": {
+      "success": "User balance successfully updated",
+      "errorUpdate": "Failed to update user",
+      "notFound": "User with the specified userId does not exist"
+    },
+    "writeOffBalanceUser": {
+      "success": "User balance successfully updated",
+      "errorUpdate": "Failed to update user",
+      "notFound": "User with the specified userId does not exist"
+    }
+  },
+  "LLM": {
+    "generateText": {
+      "lowBalance": "Insufficient funds for this request; please top up your balance"
+    },
+    "generateTextStream": {
+      "lowBalance": "Insufficient funds for this request; please top up your balance"
+    }
+  },
+  "VALIDATORS": {
+    "isNumber": {
+      "error": "The provided value is not a number"
+    },
+    "isArray": {
+      "error": "The provided value is not an array",
+      "isEmpty": "Array cannot be empty"
+    },
+    "isEmpty": {
+      "error": "An empty string was provided"
+    },
+    "isPhone": {
+      "error": "Invalid phone number format"
+    },
+    "isEmail": {
+      "error": "Invalid email format"
+    },
+    "isPassword": {
+      "error": "Password is not applicable for phone number authentication"
+    },
+    "hasPassword": {
+      "min": "Password must be at least 8 characters long",
+      "max": "Password can be up to 32 characters long",
+      "type": "Password must contain uppercase and lowercase Latin letters, numbers, and special symbols ($ @ # & !)",
+      "isEmpty": "Password was not provided"
+    },
+    "hasName": {
+      "error": "Name was not provided"
+    },
+    "hasLogin": {
+      "min": "Username must be at least 3 characters",
+      "max": "Username can be up to 32 characters",
+      "oneDigit": "The first character of the username cannot be a digit",
+      "incorrect": "Username can only contain lowercase Latin letters and numbers"
+    },
+    "signUpParams": {
+      "notSpecified": "Some or all required values were not provided"
+    },
+    "signInParams": {
+      "notSpecified": "Username or password was not provided"
+    },
+    "replenishBalanceUserParams": {
+      "notSpecified": "Some or all required values were not provided"
+    }
+  },
+  "HTTP": {
+    "200": "OK",
+    "401": "Unauthorized",
+    "403": "Access to the resource is forbidden",
+    "404": "Not found"
+  }
+}

@@ -15,7 +15,7 @@ export class AuthController {
         errors: [
           {
             field: 'email or login or password',
-            message: 'Какое-то или все значения не были переданы'
+            message: req.__('VALIDATORS.signUpParams.notSpecified')
           }
         ]
       })
@@ -27,7 +27,7 @@ export class AuthController {
     }
 
     try {
-      const result = await this.authService.signUp(params)
+      const result = await this.authService.signUp(res, params)
 
       if (result.message) {
         res.status(201).json(result)
@@ -47,7 +47,7 @@ export class AuthController {
         errors: [
           {
             field: 'login or password',
-            message: 'Логин или пароль не были указаны'
+            message: req.__('VALIDATORS.signInParams.notSpecified')
           }
         ]
       })

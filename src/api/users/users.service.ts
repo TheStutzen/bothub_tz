@@ -2,7 +2,7 @@ import Models from '../../models'
 import { IUpdateUser } from './interface/users.interface'
 
 export class UsersService {
-  async getUsers() {
+  async getUsers(req: any) {
     const users = await Models.UsersModel.getUsers()
 
     if (users.length) {
@@ -21,11 +21,13 @@ export class UsersService {
 
     return {
       users: null,
-      errors: [{ field: 'getUsers', message: 'Пользователей не найдено' }]
+      errors: [
+        { field: 'getUsers', message: req.__('USERS.getUsers.notFound') }
+      ]
     }
   }
 
-  async getBalance(userId: number) {
+  async getBalance(req: any, userId: number) {
     const user = await Models.UsersModel.findByUserId(userId)
 
     if (user) {
@@ -34,11 +36,11 @@ export class UsersService {
 
     return {
       users: null,
-      errors: [{ field: 'user', message: 'Пользователя не найдено' }]
+      errors: [{ field: 'user', message: req._('USERS.getBalance.notFound') }]
     }
   }
 
-  async replenishBalanceUser(params: IUpdateUser) {
+  async replenishBalanceUser(req: any, params: IUpdateUser) {
     const user = await Models.UsersModel.findByUserId(params.userId)
 
     if (user) {
@@ -49,13 +51,16 @@ export class UsersService {
 
       if (hasUpdate.affected === 1) {
         return {
-          message: 'Баланс пользователя был успешно обновлён'
+          message: req.__('USERS.replenishBalanceUser.success')
         }
       }
 
       return {
         errors: [
-          { field: 'updateUser', message: 'Неудалось обновить пользователя' }
+          {
+            field: 'updateUser',
+            message: req.__('USERS.replenishBalanceUser.error')
+          }
         ]
       }
     }
@@ -64,7 +69,7 @@ export class UsersService {
       errors: [
         {
           field: 'userId',
-          message: 'Пользователя с указанным userId не существует'
+          message: req.__('USERS.replenishBalanceUser.notFound')
         }
       ]
     }

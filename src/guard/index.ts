@@ -49,12 +49,12 @@ export const CheckSession = async (
 
     return {
       ok: false,
-      message: 'Insufficient access rights'
+      message: req.__('HTTP.403')
     }
   }
 
   return {
     ok: false,
-    message: '401 Unauthorized'
+    message: req.__('HTTP.401')
   }
 }
